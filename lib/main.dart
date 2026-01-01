@@ -58,6 +58,8 @@ class WelcomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     letterSpacing: 1.2,
+                    fontFamily: 'PostNoBillsColombo',
+
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -101,7 +103,6 @@ class WelcomeScreen extends StatelessWidget {
                 // Create account
                 TextButton(
                   onPressed: () {
-                    // TODO: Navigate to Sign Up screen
                   },
                   child: const Text(
                     'Create an account',
