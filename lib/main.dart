@@ -55,10 +55,12 @@ class WelcomeScreen extends StatelessWidget {
                   'ModiFyX',
                   style: TextStyle(
                     fontSize: 42,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
                     color: Colors.white,
                     letterSpacing: 1.2,
-                    fontFamily: 'PostNoBillsColombo',
+                     fontFamily: 'PostNoBillsColombo',
+  
+    
 
                   ),
                 ),
