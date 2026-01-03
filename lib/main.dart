@@ -40,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
 
           // Dark overlay
           Container(
-            color: Colors.black.withOpacity(0.45),
+            color: Colors.black.withOpacity(0.0),
           ),
 
           // TOP LEFT TEXT (ModiFyX)
@@ -53,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   'ModiFyX',
                   style: TextStyle(
-                    fontSize: 42,
+                    fontSize: 56,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                     letterSpacing: 1.2,
