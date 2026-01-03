@@ -43,46 +43,47 @@ class WelcomeScreen extends StatelessWidget {
             color: Colors.black.withOpacity(0.45),
           ),
 
-          // Content
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+          // TOP LEFT TEXT (ModiFyX)
+          Positioned(
+            top: 80,
+            left: 24,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Spacer(),
-
-                const Text(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
                   'ModiFyX',
                   style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                     letterSpacing: 1.2,
-                     fontFamily: 'PostNoBillsColombo',
-  
-    
-
+                    fontFamily: 'PostNoBillsColombo',
                   ),
                 ),
-                const SizedBox(height: 8),
-
-                const Text(
+                SizedBox(height: 6),
+                Text(
                   'Visualize your car before you modify',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white70,
+                    color: Colors.white,
                   ),
                 ),
+              ],
+            ),
+          ),
 
-                const SizedBox(height: 40),
-
+          // Bottom Content
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
                 // Sign In Button
                 SizedBox(
                   width: double.infinity,
                   height: 52,
                   child: ElevatedButton(
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white.withOpacity(0.85),
                       shape: RoundedRectangleBorder(
@@ -104,8 +105,7 @@ class WelcomeScreen extends StatelessWidget {
 
                 // Create account
                 TextButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   child: const Text(
                     'Create an account',
                     style: TextStyle(
