@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'signin.dart';
+
 
 void main() {
   runApp(const ModiFyXApp());
@@ -45,32 +47,32 @@ class WelcomeScreen extends StatelessWidget {
 
           // TOP LEFT TEXT (ModiFyX)
         Positioned(
-  top: 120, // ⬅ move both texts down together
-  left: 24,
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: const [
-      Text(
-        'ModiFyX',
-        style: TextStyle(
-          fontSize: 56,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-          letterSpacing: 1.2,
-          fontFamily: 'PostNoBillsColombo',
-        ),
-      ),
-      SizedBox(height: 2),
-      Text(
-        'Visualize your car before you modify',
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-        ),
-      ),
-    ],
-  ),
-),
+            top: 120, 
+            left: 24,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'ModiFyX',
+                  style: TextStyle(
+                    fontSize: 56,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    letterSpacing: 1.2,
+                    fontFamily: 'PostNoBillsColombo',
+                  ),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Visualize your car before you modify',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
 
 
           // Bottom Content
@@ -84,13 +86,14 @@ class WelcomeScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 52,
                   child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white.withOpacity(0.4),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInPage(),
                       ),
-                    ),
+                    );
+                  },
                     child: const Text(
                       'Sign In',
                       style: TextStyle(
