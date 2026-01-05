@@ -23,9 +23,9 @@ class SignInPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(24),
-              height: 520,
+              height: 430,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.white.withOpacity(0.65),
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(30),
                 ),
