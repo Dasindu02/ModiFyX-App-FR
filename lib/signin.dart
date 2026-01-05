@@ -115,16 +115,30 @@ class SignInPage extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // Divider
-                  Row(
-                    children: const [
-                      Expanded(child: Divider()),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text('Sign in with'),
+                 Row(
+                  children: const [
+                    Expanded(
+                      child: Divider(
+                        color: Colors.black,
+                        thickness: 2,
                       ),
-                      Expanded(child: Divider()),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'Sign in with',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Colors.black,
+                        thickness: 2,
+                      ),
+                    ),
+                  ],
+                ),
+
 
                   const SizedBox(height: 20),
 
