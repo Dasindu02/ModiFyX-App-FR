@@ -23,7 +23,7 @@ class SignInPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(24),
-              height: 430,
+              height: 425,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.65),
                 borderRadius: const BorderRadius.vertical(
@@ -44,6 +44,10 @@ class SignInPage extends StatelessWidget {
 
                   // Email
                   TextField(
+                     style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+              ),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       hintText: 'Enter Email',
@@ -63,6 +67,10 @@ class SignInPage extends StatelessWidget {
 
                   // Password
                   TextField(
+                    style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+              ),
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
