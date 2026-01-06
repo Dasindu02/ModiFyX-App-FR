@@ -47,6 +47,9 @@ class SignInPage extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Email',
                       hintText: 'Enter Email',
+                       floatingLabelStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       filled: true,
                       fillColor: Colors.grey.shade200,
                       border: OutlineInputBorder(
@@ -64,6 +67,10 @@ class SignInPage extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Password',
                       hintText: 'Enter Password',
+                       floatingLabelStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+
                       filled: true,
                       fillColor: Colors.grey.shade200,
                       border: OutlineInputBorder(
