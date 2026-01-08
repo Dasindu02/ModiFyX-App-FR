@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signin.dart';
+import 'signup.dart';
 
 
 void main() {
@@ -109,7 +110,14 @@ class WelcomeScreen extends StatelessWidget {
 
                 // Create account
                 TextButton(
-                  onPressed: () {},
+                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpPage(),
+                      ),
+                    );
+                  },
                   child: const Text(
                     'Create an account',
                     style: TextStyle(
