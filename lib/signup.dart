@@ -8,7 +8,7 @@ class SignUpPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
+
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -18,7 +18,6 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
 
-          // Back button
           Positioned(
             top: 40,
             left: 16,
