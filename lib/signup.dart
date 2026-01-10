@@ -44,7 +44,7 @@ class SignUpPage extends StatelessWidget {
               child: Column(
                 children: const [
                   Text(
-                    'Login',
+                    'Create Account',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
