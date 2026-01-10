@@ -37,7 +37,7 @@ class SignUpPage extends StatelessWidget {
                     Text(
                       'Create Account',
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: 26,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
