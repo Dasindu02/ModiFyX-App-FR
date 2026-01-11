@@ -24,8 +24,8 @@ class SignUpPage extends StatelessWidget {
           Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-             width: double.infinity, 
-                            height: 425,
+               padding: const EdgeInsets.all(24),   
+               height: 425,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.65),
                   borderRadius: const BorderRadius.vertical(
@@ -33,18 +33,45 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 child: Column(
-                  children: const [
-                    Text(
-                      'Create Account',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+                    children: [
+                      const Text(
+                        'Get Started',
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+
+                      const SizedBox(height: 24),
+
+                      TextField(
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: InputDecoration(
+                            labelText: 'Full Name',
+                            hintText: 'Enter Full Name',
+                            floatingLabelStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        
+
                   ],
                 ),
+                
               ),
+              
             ),
+            
 
              Positioned(
             top: 40,
