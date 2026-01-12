@@ -63,6 +63,28 @@ class SignUpPage extends StatelessWidget {
                             ),
                           ),
                         ),
+
+                         const SizedBox(height: 20),
+
+                      TextField(
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            hintText: 'Email',
+                            floatingLabelStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
                         
 
                   ],
