@@ -25,7 +25,7 @@ class SignUpPage extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                padding: const EdgeInsets.all(24),   
-               height: 425,
+               height: 465,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.65),
                   borderRadius: const BorderRadius.vertical(
