@@ -200,15 +200,17 @@ class _SignUpPageState extends State<SignUpPage> {
                               }
                             : null,
                         style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                        backgroundColor: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
+                      ),
                         child: const Text(
                           'Sign Up',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                             color: Colors.black,
                           ),
                         ),
                       ),
