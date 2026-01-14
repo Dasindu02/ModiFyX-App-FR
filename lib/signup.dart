@@ -30,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(24),
-              height: 500,
+              height: 480,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.65),
                 borderRadius: const BorderRadius.vertical(
@@ -167,6 +167,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 13,
+                                  fontWeight: FontWeight.bold,
                                   fontFamily: 'Poppins',
                                 ),
                                 children: [
