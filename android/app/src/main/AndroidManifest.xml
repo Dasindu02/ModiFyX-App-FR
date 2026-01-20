@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="modifx_app_fr"
+        android:label="ModiFyX"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
