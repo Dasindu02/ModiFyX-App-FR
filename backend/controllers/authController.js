@@ -1,30 +1,36 @@
 import User from "../models/User.js";
-import { validationResult } from "express-validator";
 
 export const register = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array()[0].msg });
-    }
+    console.log("BODY:", req.body);
 
     const { fullName, email, password, createdBy } = req.body;
 
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: "Email already exists" });
+    if (!fullName || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already exists",
+      });
     }
 
     const user = await User.create({
       fullName,
       email,
       password,
-      createdBy,
+      createdBy: createdBy || "APP",
     });
 
     res.status(201).json({
       success: true,
-      message: "User registered",
+      message: "User registered successfully",
       user: {
         id: user._id,
         fullName: user.fullName,
@@ -32,6 +38,10 @@ export const register = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("REGISTER ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
