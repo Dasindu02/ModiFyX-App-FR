@@ -30,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(24),
-              height: 480,
+              height: 530,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.65),
                 borderRadius: const BorderRadius.vertical(
