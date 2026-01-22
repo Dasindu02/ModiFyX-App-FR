@@ -127,7 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     const SizedBox(height: 12),
 
-                    /// Terms
+                    
                     Row(
                       children: [
                         Checkbox(
