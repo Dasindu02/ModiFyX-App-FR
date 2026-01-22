@@ -19,7 +19,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  /// 🔗 CHANGE THIS to your backend URL
   final String baseUrl = "http://192.168.8.196:5000/api/auth/register";
 
   Future<void> signUp() async {
@@ -45,7 +44,7 @@ class _SignUpPageState extends State<SignUpPage> {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 201) {
-        showMessage("Account created successfully ✅");
+        showMessage("Account created successfully");
         Navigator.pop(context);
       } else {
         showMessage(data["message"] ?? "Signup failed");
