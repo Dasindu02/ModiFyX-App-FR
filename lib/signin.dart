@@ -92,7 +92,7 @@ class _SignInPageState extends State<SignInPage> {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: const EdgeInsets.all(24),
-              height: 475,
+              height: 450,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.65),
                 borderRadius: const BorderRadius.vertical(
