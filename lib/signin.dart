@@ -1,7 +1,76 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class SignInPage extends StatelessWidget {
+import 'home.dart';
+
+
+class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
+
+  Future<void> loginUser() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill all fields")),
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      final response = await http.post(
+        Uri.parse("http://192.168.8.196:5000/api/auth/login"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": emailController.text.trim(),
+          "password": passwordController.text.trim(),
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data["message"])),
+        );
+
+        //Navigate to Home Screen
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data["message"] ?? "Login failed")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Server connection failed")),
+      );
+    }
+
+    setState(() => isLoading = false);
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,147 +99,144 @@ class SignInPage extends StatelessWidget {
                   top: Radius.circular(30),
                 ),
               ),
-              child: Column(
-                children: [
-                  const Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                  // Email
-                  TextField(
-                     style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-              ),
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'Enter Email',
-                       floatingLabelStyle: TextStyle(
+                    // Email
+                    TextField(
+                      controller: emailController,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'Enter Email',
+                        floatingLabelStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
-                      filled: true,
-                      fillColor: Colors.grey.shade200,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Password
-                  TextField(
-                    style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-              ),
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'Enter Password',
-                       floatingLabelStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-
-                      filled: true,
-                      fillColor: Colors.grey.shade200,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  // Forget password
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Forget password',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  // Sign In button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        shape: RoundedRectangleBorder(
+                        filled: true,
+                        fillColor: Colors.grey.shade200,
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
                         ),
                       ),
-                      child: const Text(
-                        'Sign In',
-                        style: TextStyle(
-                          fontSize: 18,
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Password
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter Password',
+                        floatingLabelStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade200,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
                         ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 24),
+                    const SizedBox(height: 8),
 
-                  // Divider
-                 Row(
-                  children: const [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.black,
-                        thickness: 2,
+                    // Forget password
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Forget password',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        'Sign in with',
-                        style: TextStyle(color: Colors.black),
+
+                    const SizedBox(height: 8),
+
+                    // Sign In button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        onPressed: isLoading ? null : loginUser,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.black,
+                              )
+                            : const Text(
+                                'Sign In',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
                       ),
                     ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.black,
-                        thickness: 2,
-                      ),
+
+                    const SizedBox(height: 24),
+
+                    // Divider
+                    Row(
+                      children: const [
+                        Expanded(
+                          child: Divider(color: Colors.black, thickness: 2),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Text('Sign in with'),
+                        ),
+                        Expanded(
+                          child: Divider(color: Colors.black, thickness: 2),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Social icons
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/icons/google.png', height: 36),
+                        const SizedBox(width: 16),
+                        Image.asset('assets/icons/instagram.png', height: 36),
+                        const SizedBox(width: 16),
+                        Image.asset('assets/icons/facebook.png', height: 36),
+                        const SizedBox(width: 16),
+                        Image.asset('assets/icons/twitter.png', height: 36),
+                      ],
                     ),
                   ],
                 ),
-
-
-                  const SizedBox(height: 20),
-
-                  // Social icons
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/icons/google.png', height: 36),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/icons/instagram.png', height: 36),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/icons/facebook.png', height: 36),
-                      const SizedBox(width: 16),
-                      Image.asset('assets/icons/twitter.png', height: 36),
-                    ],
-                  ),
-                ],
               ),
             ),
           ),
