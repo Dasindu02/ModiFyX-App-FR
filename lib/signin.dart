@@ -46,10 +46,14 @@ class _SignInPageState extends State<SignInPage> {
         );
 
         //Navigate to Home Screen
+         final String fullName = data["user"]["fullName"];
+
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => HomePage()),
+          MaterialPageRoute(
+            builder: (_) => HomePage(fullName: fullName),
+          ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
