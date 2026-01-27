@@ -19,18 +19,32 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get first name only
     final firstName = fullName.split(" ").first;
 
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: Text(
-          "${getGreeting()}, $firstName 👋",
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, 
+          children: [
+            Text(
+              "${getGreeting()}, $firstName",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 2),
+            const Text(
+              "Visualize your car before you modify",
+              style: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 196, 2, 2),
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ],
         ),
       ),
     );
