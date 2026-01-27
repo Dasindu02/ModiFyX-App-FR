@@ -22,7 +22,9 @@ class HomePage extends StatelessWidget {
     final firstName = fullName.split(" ").first;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false, 
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
