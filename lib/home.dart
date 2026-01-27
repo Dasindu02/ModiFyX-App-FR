@@ -22,31 +22,30 @@ class HomePage extends StatelessWidget {
     final firstName = fullName.split(" ").first;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false, 
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
-          children: [
-            Text(
-              "${getGreeting()}, $firstName",
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${getGreeting()}, $firstName",
+                style: const TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 2),
-            const Text(
-              "Visualize your car before you modify",
-              style: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 196, 2, 2),
+              const SizedBox(height: 2),
+              const Text(
+                "Visualize your car before you modify",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 196, 2, 2),
+                ),
               ),
-              textAlign: TextAlign.left,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
