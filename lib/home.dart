@@ -27,7 +27,6 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
 
-            // ---------------- Top bar ----------------
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -52,7 +51,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // ---------------- Body ----------------
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
@@ -140,7 +138,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // ---------------- Bottom bar ----------------
             Container(
               height: 60,
               decoration: const BoxDecoration(
@@ -165,7 +162,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// ---------------- vehicle card ----------------
 
 Widget _vehicleCard({
   required String image,
