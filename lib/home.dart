@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'sedan_model.dart';
+import 'hatchback_model.dart';
 
 class HomePage extends StatelessWidget {
   final String fullName;
@@ -26,7 +28,6 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -51,6 +52,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
+            // ---------------- Body ----------------
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
@@ -58,7 +60,6 @@ class HomePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       // Greeting
                       RichText(
                         text: TextSpan(
@@ -100,16 +101,35 @@ class HomePage extends StatelessWidget {
 
                       const SizedBox(height: 10),
 
+                      // -------- Sedan Card --------
                       _vehicleCard(
                         image: "assets/images/sedan.jpg",
                         title: "Sedan",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SedanModel(),
+                            ),
+                          );
+                        },
                       ),
 
                       const SizedBox(height: 12),
 
+                      // -------- Hatchback Card --------
                       _vehicleCard(
                         image: "assets/images/hatchback.jpg",
                         title: "Hatchback",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const HatchbackModel(),
+                            ),
+                          );
+                        },
                       ),
 
                       const SizedBox(height: 20),
@@ -138,6 +158,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
+            // ---------------- Bottom Bar ----------------
             Container(
               height: 60,
               decoration: const BoxDecoration(
@@ -166,38 +187,42 @@ class HomePage extends StatelessWidget {
 Widget _vehicleCard({
   required String image,
   required String title,
+  required VoidCallback onTap,
 }) {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(12),
-    child: Stack(
-      children: [
-        Image.asset(
-          image,
-          height: 160,
-          width: double.infinity,
-          fit: BoxFit.cover,
-        ),
-        Positioned(
-          top: 10,
-          right: 12,
-          child: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(color: Colors.black, blurRadius: 6),
-              ],
+  return GestureDetector(
+    onTap: onTap,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Stack(
+        children: [
+          Image.asset(
+            image,
+            height: 160,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            top: 10,
+            right: 12,
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(color: Colors.black, blurRadius: 6),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
 
-// ---------------- mod item ----------------
+// ---------------- Mod item ----------------
 
 class _ModItem extends StatelessWidget {
   final String image;
