@@ -7,13 +7,13 @@ class SedanModel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sedan Page'),
+        // title: const Text('Sedan Page'),
       ),
       body: const Center(
-        child: Text(
-          'Hello – This is the Sedan page',
-          style: TextStyle(fontSize: 18),
-        ),
+        // child: Text(
+        //   'Hello – This is the Sedan page',
+        //   style: TextStyle(fontSize: 18),
+        // ),
       ),
     );
   }
