@@ -10,8 +10,10 @@ class SedanModel extends StatelessWidget {
 
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
-           Container(
+            // Top bar
+            Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: const BoxDecoration(
@@ -32,6 +34,41 @@ class SedanModel extends StatelessWidget {
                   ),
                   Icon(Icons.menu, color: Colors.white),
                 ],
+              ),
+            ),
+
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+              child: Text(
+                "Sedan Models",
+                style: TextStyle(
+                  color: Color.fromARGB(179, 0, 0, 0),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 12),
+              child: Text(
+                "Type a car model",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Eg: Toyota Corolla",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
               ),
             ),
 
