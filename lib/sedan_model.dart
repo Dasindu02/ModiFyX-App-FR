@@ -12,7 +12,7 @@ class SedanModel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
-            // Top bar
+
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -72,7 +72,6 @@ class SedanModel extends StatelessWidget {
               ),
             ),
 
-            // page content
             const Expanded(
               child: Center(),
             ),
