@@ -9,16 +9,27 @@ class SedanModel extends StatefulWidget {
 
 class _SedanModelState extends State<SedanModel> {
 
+  final TextEditingController carModelController = TextEditingController();
   String? selectedPart;
+
+  bool get isFormValid {
+    return carModelController.text.trim().isNotEmpty &&
+        selectedPart != null;
+  }
+
+  @override
+  void dispose() {
+    carModelController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             Container(
@@ -32,7 +43,7 @@ class _SedanModelState extends State<SedanModel> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                 Text(
+                  Text(
                     "ModiFyX",
                     style: TextStyle(
                       fontFamily: 'PostNoBillsColombo',
@@ -72,12 +83,16 @@ class _SedanModelState extends State<SedanModel> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: TextField(
+                controller: carModelController,
                 decoration: InputDecoration(
                   hintText: "Eg: Toyota Corolla",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                onChanged: (_) {
+                  setState(() {});
+                },
               ),
             ),
 
@@ -93,49 +108,56 @@ class _SedanModelState extends State<SedanModel> {
             ),
 
             Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    hint: const Text("Select modification part"),
-                    items: const [
-                      DropdownMenuItem(
-                        value: "headlights",
-                        child: Text("Headlights"),
-                      ),
-                      DropdownMenuItem(
-                        value: "alloywheels",
-                        child: Text("Alloy Wheels"),
-                      ),
-                      DropdownMenuItem(
-                        value: "spoiler",
-                        child: Text("Spoiler"),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      print(value);
-                    },
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: DropdownButtonFormField<String>(
+                value: selectedPart,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                
-                  Padding(
+                hint: const Text("Select modification part"),
+                items: const [
+                  DropdownMenuItem(
+                    value: "headlights",
+                    child: Text("Headlights"),
+                  ),
+                  DropdownMenuItem(
+                    value: "alloywheels",
+                    child: Text("Alloy Wheels"),
+                  ),
+                  DropdownMenuItem(
+                    value: "spoiler",
+                    child: Text("Spoiler"),
+                  ),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    selectedPart = value;
+                  });
+                },
+              ),
+            ),
+
+            // Search button
+           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: SizedBox(
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,   // button color
+                    foregroundColor: Colors.white,   // text (and icon) color
+                    disabledBackgroundColor: Colors.black26,
+                    disabledForegroundColor: Colors.white70,
+                  ),
                   onPressed: isFormValid
                       ? () {
                           final car = carModelController.text.trim();
                           final part = selectedPart!;
 
-                          // For now just print
                           debugPrint("Search pressed: $car , $part");
-
-                          // Later you will navigate to result / AR page here
                         }
                       : null,
                   child: const Text("Search"),
@@ -143,9 +165,7 @@ class _SedanModelState extends State<SedanModel> {
               ),
             ),
 
-            const Expanded(
-              child: Center(),
-            ),
+            const Expanded(child: SizedBox()),
           ],
         ),
       ),
