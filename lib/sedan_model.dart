@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class SedanModel extends StatelessWidget {
+class SedanModel extends StatefulWidget {
   const SedanModel({super.key});
+
+  @override
+  State<SedanModel> createState() => _SedanModelState();
+}
+
+class _SedanModelState extends State<SedanModel> {
+
+  String? selectedPart;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +79,46 @@ class SedanModel extends StatelessWidget {
                 ),
               ),
             ),
+
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 12),
+              child: Text(
+                "Select the Parts",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+
+            Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    hint: const Text("Select modification part"),
+                    items: const [
+                      DropdownMenuItem(
+                        value: "headlights",
+                        child: Text("Headlights"),
+                      ),
+                      DropdownMenuItem(
+                        value: "alloywheels",
+                        child: Text("Alloy Wheels"),
+                      ),
+                      DropdownMenuItem(
+                        value: "spoiler",
+                        child: Text("Spoiler"),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      print(value);
+                    },
+                  ),
+                ),
 
             const Expanded(
               child: Center(),
