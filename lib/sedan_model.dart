@@ -120,6 +120,28 @@ class _SedanModelState extends State<SedanModel> {
                     },
                   ),
                 ),
+                
+                  Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: isFormValid
+                      ? () {
+                          final car = carModelController.text.trim();
+                          final part = selectedPart!;
+
+                          // For now just print
+                          debugPrint("Search pressed: $car , $part");
+
+                          // Later you will navigate to result / AR page here
+                        }
+                      : null,
+                  child: const Text("Search"),
+                ),
+              ),
+            ),
 
             const Expanded(
               child: Center(),
