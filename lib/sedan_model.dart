@@ -84,6 +84,10 @@ class _SedanModelState extends State<SedanModel> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: TextField(
                 controller: carModelController,
+                 style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
                 decoration: InputDecoration(
                   hintText: "Eg: Toyota Corolla",
                   border: OutlineInputBorder(
@@ -147,8 +151,8 @@ class _SedanModelState extends State<SedanModel> {
                 height: 48,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,   // button color
-                    foregroundColor: Colors.white,   // text (and icon) color
+                    backgroundColor: Colors.orange,   
+                    foregroundColor: Colors.white,   
                     disabledBackgroundColor: Colors.black26,
                     disabledForegroundColor: Colors.white70,
                   ),
