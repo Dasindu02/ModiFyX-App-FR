@@ -32,11 +32,12 @@ class _SedanModelState extends State<SedanModel> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Text(
+                 Text(
                     "ModiFyX",
                     style: TextStyle(
+                      fontFamily: 'PostNoBillsColombo',
                       color: Colors.white,
-                      fontSize: 22,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
