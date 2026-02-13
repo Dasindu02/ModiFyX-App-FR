@@ -9,12 +9,7 @@ class HatchbackModel extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Hatchback Page'),
       ),
-      body: const Center(
-        child: Text(
-          'Hello – This is the Hatchback page',
-          style: TextStyle(fontSize: 18),
-        ),
-      ),
+      
     );
   }
 }
