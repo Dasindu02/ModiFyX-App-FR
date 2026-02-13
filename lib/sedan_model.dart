@@ -176,3 +176,4 @@ class _SedanModelState extends State<SedanModel> {
     );
   }
 }
+//sedan type code
