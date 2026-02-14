@@ -57,14 +57,16 @@ class _SedanModelState extends State<SedanModel> {
               ),
             ),
 
-            const Padding(
-              padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-              child: Text(
-                "Sedan Models",
-                style: TextStyle(
-                  color: Color.fromARGB(179, 0, 0, 0),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+           Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: Center(
+                child: Text(
+                  "Sedan Models",
+                  style: TextStyle(
+                    color: Color.fromARGB(179, 0, 0, 0),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
