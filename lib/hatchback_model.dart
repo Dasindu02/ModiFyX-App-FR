@@ -30,7 +30,6 @@ class _HatchbackModelState extends State<HatchbackModel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            // AppBar
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -56,7 +55,6 @@ class _HatchbackModelState extends State<HatchbackModel> {
               ),
             ),
 
-            // Title
             const Padding(
               padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
               child: Text(
@@ -69,7 +67,6 @@ class _HatchbackModelState extends State<HatchbackModel> {
               ),
             ),
 
-            // Car model input
             const Padding(
               padding: EdgeInsets.only(left: 16, top: 12),
               child: Text(
@@ -100,7 +97,6 @@ class _HatchbackModelState extends State<HatchbackModel> {
               ),
             ),
 
-            // Parts dropdown
             const Padding(
               padding: EdgeInsets.only(left: 16, top: 12),
               child: Text(
@@ -143,7 +139,6 @@ class _HatchbackModelState extends State<HatchbackModel> {
               ),
             ),
 
-            // Search button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: SizedBox(
