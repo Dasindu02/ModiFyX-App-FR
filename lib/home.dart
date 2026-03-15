@@ -170,7 +170,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   Icon(Icons.home),
-                  Icon(Icons.language),
+                  Icon(Icons.view_in_ar),
                   Icon(Icons.shopping_cart_outlined),
                   Icon(Icons.person_outline),
                 ],

@@ -32,6 +32,8 @@ environment:
 
 
 dependencies:
+  image_picker: ^1.0.7
+
   flutter:
     sdk: flutter
 
