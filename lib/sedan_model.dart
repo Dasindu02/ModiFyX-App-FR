@@ -12,6 +12,8 @@ class _SedanModelState extends State<SedanModel> {
   final TextEditingController carModelController = TextEditingController();
   String? selectedPart;
 
+  bool showModifications = false;
+
   bool get isFormValid {
     return carModelController.text.trim().isNotEmpty &&
         selectedPart != null;
@@ -23,8 +25,108 @@ class _SedanModelState extends State<SedanModel> {
     super.dispose();
   }
 
+  //  SHOW POPUP
+  void showModificationPopup(String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Stack(
+            children: [
+
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+
+                    Image.asset(imagePath, height: 120),
+
+                    const SizedBox(height: 10),
+
+                    const Text(
+                      "Modification Option",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            debugPrint("Details clicked");
+                          },
+                          child: const Text("Details"),
+                        ),
+
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            debugPrint("Try Out clicked");
+                          },
+                          child: const Text("Try Out"),
+                        ),
+
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+              // Close button
+              Positioned(
+                right: 8,
+                top: 8,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  List<String> getImages() {
+    if (selectedPart == "alloywheels") {
+      return [
+        "assets/modificationpart/allowheel01.png",
+        "assets/modificationpart/allowheel02.jpeg",
+        "assets/modificationpart/alloywheel03.jpeg",
+        "assets/modificationpart/allowheel04.png",
+        "assets/modificationpart/allowheel05.jpeg",
+      ];
+    } else if (selectedPart == "headlights") {
+      return [
+        "assets/modificationpart/allowheel01.png",
+      ];
+    } else if (selectedPart == "spoiler") {
+      return [
+        "assets/modificationpart/allowheel02.jpeg",
+      ];
+    }
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    final images = getImages();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -32,6 +134,7 @@ class _SedanModelState extends State<SedanModel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
+            // Header
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -40,9 +143,9 @@ class _SedanModelState extends State<SedanModel> {
                   colors: [Colors.black, Colors.black87],
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
                     "ModiFyX",
                     style: TextStyle(
@@ -57,125 +160,119 @@ class _SedanModelState extends State<SedanModel> {
               ),
             ),
 
-           Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Center(
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(8),
                 child: Text(
                   "Sedan Models",
-                  style: TextStyle(
-                    color: Color.fromARGB(179, 0, 0, 0),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
 
             const Padding(
-              padding: EdgeInsets.only(left: 16, top: 12),
-              child: Text(
-                "Type a car model",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              padding: EdgeInsets.only(left: 16),
+              child: Text("Type a car model"),
             ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.all(16),
               child: TextField(
                 controller: carModelController,
-                 style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Eg: Toyota Corolla",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  border: OutlineInputBorder(),
                 ),
                 onChanged: (_) {
-                  setState(() {});
-                },
-              ),
-            ),
-
-            const Padding(
-              padding: EdgeInsets.only(left: 16, top: 12),
-              child: Text(
-                "Select the Parts",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: DropdownButtonFormField<String>(
-                value: selectedPart,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                hint: const Text("Select modification part"),
-                items: const [
-                  DropdownMenuItem(
-                    value: "headlights",
-                    child: Text("Headlights"),
-                  ),
-                  DropdownMenuItem(
-                    value: "alloywheels",
-                    child: Text("Alloy Wheels"),
-                  ),
-                  DropdownMenuItem(
-                    value: "spoiler",
-                    child: Text("Spoiler"),
-                  ),
-                ],
-                onChanged: (value) {
                   setState(() {
-                    selectedPart = value;
+                    showModifications = false;
                   });
                 },
               ),
             ),
 
-            // Search button
-           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,   
-                    foregroundColor: Colors.white,   
-                    disabledBackgroundColor: Colors.black26,
-                    disabledForegroundColor: Colors.white70,
-                  ),
-                  onPressed: isFormValid
-                      ? () {
-                          final car = carModelController.text.trim();
-                          final part = selectedPart!;
+            const Padding(
+              padding: EdgeInsets.only(left: 16),
+              child: Text("Select the Parts"),
+            ),
 
-                          debugPrint("Search pressed: $car , $part");
-                        }
-                      : null,
-                  child: const Text("Search"),
-                ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: DropdownButtonFormField<String>(
+                value: selectedPart,
+                hint: const Text("Select modification part"),
+                items: const [
+                  DropdownMenuItem(value: "headlights", child: Text("Headlights")),
+                  DropdownMenuItem(value: "alloywheels", child: Text("Alloy Wheels")),
+                  DropdownMenuItem(value: "spoiler", child: Text("Spoiler")),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    selectedPart = value;
+                    showModifications = false;
+                  });
+                },
               ),
             ),
 
-            const Expanded(child: SizedBox()),
+            // Search Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: Colors.orange,
+                ),
+                onPressed: isFormValid
+                    ? () {
+                        setState(() {
+                          showModifications = true;
+                        });
+                      }
+                    : null,
+                child: const Text("Search"),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // SHOW IMAGES
+            if (showModifications)
+              Expanded(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: images.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        showModificationPopup(images[index]);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            images[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
           ],
         ),
       ),
     );
   }
 }
-//sedan type code
