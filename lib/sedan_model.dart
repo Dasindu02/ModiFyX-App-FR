@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'camera_preview_screen.dart';
 
 class SedanModel extends StatefulWidget {
   const SedanModel({super.key});
@@ -8,11 +11,12 @@ class SedanModel extends StatefulWidget {
 }
 
 class _SedanModelState extends State<SedanModel> {
-
   final TextEditingController carModelController = TextEditingController();
   String? selectedPart;
 
   bool showModifications = false;
+
+  final ImagePicker _picker = ImagePicker();
 
   bool get isFormValid {
     return carModelController.text.trim().isNotEmpty &&
@@ -25,7 +29,26 @@ class _SedanModelState extends State<SedanModel> {
     super.dispose();
   }
 
-  //  SHOW POPUP
+  // 📸 OPEN CAMERA
+  Future<void> openCamera() async {
+    final XFile? photo = await _picker.pickImage(
+      source: ImageSource.camera,
+    );
+
+    if (photo != null) {
+      if (!mounted) return;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              CameraPreviewScreen(imageFile: File(photo.path)),
+        ),
+      );
+    }
+  }
+
+  // 🔥 POPUP
   void showModificationPopup(String imagePath) {
     showDialog(
       context: context,
@@ -36,17 +59,13 @@ class _SedanModelState extends State<SedanModel> {
           ),
           child: Stack(
             children: [
-
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-
                     Image.asset(imagePath, height: 120),
-
                     const SizedBox(height: 10),
-
                     const Text(
                       "Modification Option",
                       style: TextStyle(
@@ -54,36 +73,29 @@ class _SedanModelState extends State<SedanModel> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const SizedBox(height: 16),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            debugPrint("Details clicked");
                           },
                           child: const Text("Details"),
                         ),
-
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            debugPrint("Try Out clicked");
+                            openCamera(); // ✅ CAMERA OPEN HERE
                           },
                           child: const Text("Try Out"),
                         ),
-
                       ],
                     )
                   ],
                 ),
               ),
 
-              // Close button
               Positioned(
                 right: 8,
                 top: 8,
@@ -124,7 +136,6 @@ class _SedanModelState extends State<SedanModel> {
 
   @override
   Widget build(BuildContext context) {
-
     final images = getImages();
 
     return Scaffold(
@@ -133,8 +144,7 @@ class _SedanModelState extends State<SedanModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            // Header
+            // HEADER
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -215,7 +225,6 @@ class _SedanModelState extends State<SedanModel> {
               ),
             ),
 
-            // Search Button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton(
@@ -236,13 +245,13 @@ class _SedanModelState extends State<SedanModel> {
 
             const SizedBox(height: 10),
 
-            // SHOW IMAGES
             if (showModifications)
               Expanded(
                 child: GridView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: images.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
@@ -269,7 +278,6 @@ class _SedanModelState extends State<SedanModel> {
                   },
                 ),
               ),
-
           ],
         ),
       ),
