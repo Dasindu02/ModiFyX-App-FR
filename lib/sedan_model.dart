@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'camera_preview_screen.dart';
+import 'ar_view_screen.dart';
 
 class SedanModel extends StatefulWidget {
   const SedanModel({super.key});
@@ -16,8 +14,6 @@ class _SedanModelState extends State<SedanModel> {
 
   bool showModifications = false;
 
-  final ImagePicker _picker = ImagePicker();
-
   bool get isFormValid {
     return carModelController.text.trim().isNotEmpty &&
         selectedPart != null;
@@ -27,25 +23,6 @@ class _SedanModelState extends State<SedanModel> {
   void dispose() {
     carModelController.dispose();
     super.dispose();
-  }
-
-  // 📸 OPEN CAMERA
-  Future<void> openCamera() async {
-    final XFile? photo = await _picker.pickImage(
-      source: ImageSource.camera,
-    );
-
-    if (photo != null) {
-      if (!mounted) return;
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              CameraPreviewScreen(imageFile: File(photo.path)),
-        ),
-      );
-    }
   }
 
   // 🔥 POPUP
@@ -74,6 +51,7 @@ class _SedanModelState extends State<SedanModel> {
                       ),
                     ),
                     const SizedBox(height: 16),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -83,10 +61,33 @@ class _SedanModelState extends State<SedanModel> {
                           },
                           child: const Text("Details"),
                         ),
+
+                        // 🚀 TRY OUT BUTTON
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            openCamera(); // ✅ CAMERA OPEN HERE
+
+                            // 🔥 MAP IMAGE → MODEL
+                            String modelPath = "";
+
+                            if (imagePath.contains("allowheel")) {
+                              modelPath =
+                                  "assets/models/alloywheel+10.glb";
+                            } else if (imagePath.contains("headlight")) {
+                              modelPath =
+                                  "assets/models/headlight.glb";
+                            } else if (imagePath.contains("spoiler")) {
+                              modelPath =
+                                  "assets/models/spoiler.glb";
+                            }
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ARViewScreen(modelPath: modelPath),
+                              ),
+                            );
                           },
                           child: const Text("Try Out"),
                         ),
