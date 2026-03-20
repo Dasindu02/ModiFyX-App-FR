@@ -58,6 +58,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/models/cartoon_car.glb
+    - assets/modificationpart/
 
 
   fonts:
