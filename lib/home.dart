@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'sedan_model.dart';
 import 'hatchback_model.dart';
+import 'upload_car_images.dart';
+
 
 class HomePage extends StatelessWidget {
   final String fullName;
@@ -159,23 +161,51 @@ class HomePage extends StatelessWidget {
             ),
 
             // ---------------- Bottom Bar ----------------
-            Container(
-              height: 60,
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.black12),
+           Container(
+                height: 60,
+                decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: Colors.black12),
+                  ),
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  Icon(Icons.home),
-                  Icon(Icons.view_in_ar),
-                  Icon(Icons.shopping_cart_outlined),
-                  Icon(Icons.person_outline),
-                ],
-              ),
-            ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+
+                    /// Home
+                    IconButton(
+                      icon: const Icon(Icons.home),
+                      onPressed: () {},
+                    ),
+
+                    /// 3D Preview
+                    IconButton(
+                      icon: const Icon(Icons.view_in_ar),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UploadCarImages(),
+                          ),
+                        );
+                      },
+                    ),
+
+                    /// Cart
+                    IconButton(
+                      icon: const Icon(Icons.shopping_cart_outlined),
+                      onPressed: () {},
+                    ),
+
+                    /// Profile
+                    IconButton(
+                      icon: const Icon(Icons.person_outline),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              )
+
           ],
         ),
       ),
