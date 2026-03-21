@@ -54,7 +54,12 @@ class _SignInPageState extends State<SignInPage> {
           context,
           MaterialPageRoute(
             builder: (_) => HomePage(fullName: fullName , 
-             email: email,),
+             email: email,
+              userId: data["user"]["id"], // <-- important
+              vehicleType: data["user"]["vehicleType"] ?? "",
+              vehicleModel: data["user"]["vehicleModel"] ?? "",
+              vehicleRegNo: data["user"]["vehicleRegNo"] ?? "",
+      ),
           ),
         );
       } else {

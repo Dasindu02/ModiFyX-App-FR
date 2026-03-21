@@ -1,26 +1,34 @@
+// home.dart
 import 'package:flutter/material.dart';
 import 'sedan_model.dart';
 import 'hatchback_model.dart';
 import 'upload_car_images.dart';
 import 'profile.dart';
 
-
 class HomePage extends StatelessWidget {
   final String fullName;
-   final String email;
+  final String email;
+  final String vehicleType;
+  final String vehicleModel;
+  final String vehicleRegNo;
+  final String userId;
 
-  const HomePage({super.key, required this.fullName, required this.email});
+  const HomePage({
+    super.key,
+     required this.userId,
+    required this.fullName,
+    required this.email,
+    this.vehicleType = "",
+    this.vehicleModel = "",
+    this.vehicleRegNo = "",
+  });
 
   String getGreeting() {
     final hour = DateTime.now().hour;
 
-    if (hour < 12) {
-      return "Good Morning";
-    } else if (hour < 17) {
-      return "Good Afternoon";
-    } else {
-      return "Good Evening";
-    }
+    if (hour < 12) return "Good Morning";
+    if (hour < 17) return "Good Afternoon";
+    return "Good Evening";
   }
 
   @override
@@ -32,6 +40,7 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // ---------------- Top Bar ----------------
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -81,9 +90,7 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       const SizedBox(height: 4),
-
                       const Text(
                         "Visualize your car before you modify",
                         style: TextStyle(
@@ -92,9 +99,7 @@ class HomePage extends StatelessWidget {
                           color: Colors.deepOrange,
                         ),
                       ),
-
                       const SizedBox(height: 16),
-
                       const Text(
                         "Please select your vehicle type;",
                         style: TextStyle(
@@ -102,7 +107,6 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-
                       const SizedBox(height: 10),
 
                       // -------- Sedan Card --------
@@ -118,7 +122,6 @@ class HomePage extends StatelessWidget {
                           );
                         },
                       ),
-
                       const SizedBox(height: 12),
 
                       // -------- Hatchback Card --------
@@ -129,13 +132,11 @@ class HomePage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const HatchbackModel(),
+                              builder: (context) => const HatchbackModel(),
                             ),
                           );
                         },
                       ),
-
                       const SizedBox(height: 20),
 
                       const Text(
@@ -145,9 +146,7 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-
                       const SizedBox(height: 10),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
@@ -163,61 +162,58 @@ class HomePage extends StatelessWidget {
             ),
 
             // ---------------- Bottom Bar ----------------
-           Container(
-                height: 60,
-                decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.black12),
+            Container(
+              height: 60,
+              decoration: const BoxDecoration(
+                border: Border(top: BorderSide(color: Colors.black12)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // Home
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    onPressed: () {},
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-
-                    /// Home
-                    IconButton(
-                      icon: const Icon(Icons.home),
-                      onPressed: () {},
-                    ),
-
-                    /// 3D Preview
-                    IconButton(
-                      icon: const Icon(Icons.view_in_ar),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const UploadCarImages(),
+                  // 3D Preview
+                  IconButton(
+                    icon: const Icon(Icons.view_in_ar),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UploadCarImages(),
+                        ),
+                      );
+                    },
+                  ),
+                  // Cart
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                    onPressed: () {},
+                  ),
+                  // Profile
+                  IconButton(
+                    icon: const Icon(Icons.person_outline),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            fullName: fullName,
+                            email: email,
+                            userId: userId,
+                            vehicleType: vehicleType,
+                            vehicleModel: vehicleModel,
+                            vehicleRegNo: vehicleRegNo,
                           ),
-                        );
-                      },
-                    ),
-
-                    /// Cart
-                    IconButton(
-                      icon: const Icon(Icons.shopping_cart_outlined),
-                      onPressed: () {},
-                    ),
-
-                    /// Profile
-                    IconButton(
-  icon: const Icon(Icons.person_outline),
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProfilePage(
-          fullName: fullName,
-          email: email,  
-        ),
-      ),
-    );
-  },
-),
-                  ],
-                ),
-              )
-
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -225,7 +221,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-
+// Vehicle card widget
 Widget _vehicleCard({
   required String image,
   required String title,
@@ -252,9 +248,7 @@ Widget _vehicleCard({
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(color: Colors.black, blurRadius: 6),
-                ],
+                shadows: [Shadow(color: Colors.black, blurRadius: 6)],
               ),
             ),
           ),
@@ -264,11 +258,9 @@ Widget _vehicleCard({
   );
 }
 
-// ---------------- Mod item ----------------
-
+// Mod item widget
 class _ModItem extends StatelessWidget {
   final String image;
-
   const _ModItem({required this.image});
 
   @override
