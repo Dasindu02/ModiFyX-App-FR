@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
       enum: ["APP", "WEB"],
       default: "APP",
     },
+
+     vehicleType: { type: String, default: "" },
+    vehicleModel: { type: String, default: "" },
+    vehicleRegNo: { type: String, default: "" },
   },
   { timestamps: true }
 );
