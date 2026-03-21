@@ -5,10 +5,10 @@ import 'dart:convert';
 class ProfilePage extends StatefulWidget {
   final String fullName;
   final String email;
-  final String userId; 
+  final String userId;
   final String vehicleType;
   final String vehicleModel;
-  final String vehicleRegNo; 
+  final String vehicleRegNo;
 
   const ProfilePage({
     super.key,
@@ -28,7 +28,9 @@ class _ProfilePageState extends State<ProfilePage> {
   late TextEditingController vehicleTypeController;
   late TextEditingController vehicleModelController;
   late TextEditingController vehicleRegController;
+
   bool isSaving = false;
+  bool isEditing = false; // toggle for edit/save
 
   @override
   void initState() {
@@ -50,7 +52,8 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() => isSaving = true);
 
     try {
-      final url = Uri.parse("http://192.168.8.196:5000/api/auth/update-vehicle");
+      final url =
+          Uri.parse("http://192.168.8.196:5000/api/auth/update-vehicle");
 
       final response = await http
           .post(
@@ -61,11 +64,10 @@ class _ProfilePageState extends State<ProfilePage> {
               "vehicleType": vehicleTypeController.text.trim(),
               "vehicleModel": vehicleModelController.text.trim(),
               "vehicleRegNo": vehicleRegController.text.trim(),
-             }),
+            }),
           )
           .timeout(const Duration(seconds: 10));
 
-      // Debug prints
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
 
@@ -73,17 +75,27 @@ class _ProfilePageState extends State<ProfilePage> {
 
       if (response.statusCode == 200 && data["success"] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Vehicle details updated successfully")),
+          const SnackBar(
+            content: Text("Vehicle details updated successfully"),
+            backgroundColor: Colors.green,
+          ),
         );
+        setState(() => isEditing = false); 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(data["message"] ?? "Failed to update")),
+          SnackBar(
+            content: Text(data["message"] ?? "Failed to update"),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } catch (e) {
       print("Error updating vehicle: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
+        SnackBar(
+          content: Text("Error: ${e.toString()}"),
+          backgroundColor: Colors.red,
+        ),
       );
     } finally {
       setState(() => isSaving = false);
@@ -94,13 +106,16 @@ class _ProfilePageState extends State<ProfilePage> {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 6),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        title: Text(title),
+        title: Text(title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
         subtitle: TextField(
           controller: controller,
-          decoration: const InputDecoration(
+          enabled: isEditing, // read-only if not editing
+          decoration: InputDecoration(
             hintText: "Enter value",
-            border: InputBorder.none,
+            border: isEditing ? const UnderlineInputBorder() : InputBorder.none,
           ),
         ),
       ),
@@ -111,9 +126,14 @@ class _ProfilePageState extends State<ProfilePage> {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 6),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        title: Text(title),
-        subtitle: Text(value.isEmpty ? "Not set" : value),
+        title: Text(title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
+        subtitle: Text(
+          value.isEmpty ? "Not set" : value,
+          style: const TextStyle(color: Colors.grey),
+        ),
       ),
     );
   }
@@ -121,10 +141,17 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Profile"),
-        backgroundColor: Colors.black,
-      ),
+     appBar: AppBar(
+            title: const Text(
+              "My Profile",
+              style: TextStyle(
+                color: Colors.white, 
+                fontWeight: FontWeight.bold, 
+                fontSize: 20, 
+              ),
+            ),
+            backgroundColor: Colors.black, 
+          ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -136,41 +163,52 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Icon(Icons.person, size: 50, color: Colors.white),
             ),
             const SizedBox(height: 12),
-            Text(
-              widget.fullName,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            Text(widget.fullName,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
-            Text(widget.email, style: const TextStyle(color: Colors.grey)),
+            // Text(widget.email, style: const TextStyle(color: Colors.grey)),
             const SizedBox(height: 20),
 
-            /// Vehicle Details Editable
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Vehicle Details",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Vehicle Details",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                ElevatedButton(
+                  onPressed: isSaving
+                      ? null
+                      : () {
+                          if (isEditing) {
+                            saveVehicleDetails();
+                          } else {
+                            setState(() => isEditing = true);
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: isEditing ? Colors.green : Colors.orange,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8))),
+                  child: isSaving
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text(isEditing ? "Save" : "Edit"),
+                )
+              ],
             ),
             const SizedBox(height: 10),
             _editableCard("Vehicle Type", vehicleTypeController),
             _editableCard("Model", vehicleModelController),
             _editableCard("Vehicle Reg No", vehicleRegController),
-
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: isSaving ? null : saveVehicleDetails,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 14),
-              ),
-              child: isSaving
-                  ? const CircularProgressIndicator(color: Colors.black)
-                  : const Text(
-                      "Save",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-            ),
 
             const SizedBox(height: 30),
 
