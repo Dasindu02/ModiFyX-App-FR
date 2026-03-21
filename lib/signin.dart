@@ -47,12 +47,14 @@ class _SignInPageState extends State<SignInPage> {
 
         //Navigate to Home Screen
          final String fullName = data["user"]["fullName"];
+         final String email = data["user"]["email"];
 
 
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => HomePage(fullName: fullName),
+            builder: (_) => HomePage(fullName: fullName , 
+             email: email,),
           ),
         );
       } else {
