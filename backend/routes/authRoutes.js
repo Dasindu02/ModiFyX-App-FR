@@ -1,5 +1,5 @@
 import express from "express";
-import { register , login  } from "../controllers/authController.js";
+import { register , login , updateVehicle   } from "../controllers/authController.js";
 import { body } from "express-validator";
 
 const router = express.Router();
@@ -15,6 +15,7 @@ router.post(
 );
 
 router.post("/login", login);
+router.post("/update-vehicle", updateVehicle);
 
 
 export default router;
