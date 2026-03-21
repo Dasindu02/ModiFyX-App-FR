@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'sedan_model.dart';
 import 'hatchback_model.dart';
 import 'upload_car_images.dart';
+import 'profile.dart';
 
 
 class HomePage extends StatelessWidget {
   final String fullName;
+   final String email;
 
-  const HomePage({super.key, required this.fullName});
+  const HomePage({super.key, required this.fullName, required this.email});
 
   String getGreeting() {
     final hour = DateTime.now().hour;
@@ -199,9 +201,19 @@ class HomePage extends StatelessWidget {
 
                     /// Profile
                     IconButton(
-                      icon: const Icon(Icons.person_outline),
-                      onPressed: () {},
-                    ),
+  icon: const Icon(Icons.person_outline),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(
+          fullName: fullName,
+          email: email,  
+        ),
+      ),
+    );
+  },
+),
                   ],
                 ),
               )
