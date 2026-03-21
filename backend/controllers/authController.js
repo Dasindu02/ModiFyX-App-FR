@@ -85,6 +85,9 @@ export const login = async (req, res) => {
         id: user._id,
         fullName: user.fullName,
         email: user.email,
+         vehicleType: user.vehicleType,
+          vehicleModel: user.vehicleModel,
+          vehicleRegNo: user.vehicleRegNo,
       },
     });
   } catch (error) {
@@ -92,6 +95,29 @@ export const login = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error",
+    });
+  }
+};
+
+export const updateVehicle = async (req, res) => {
+  try {
+    const { userId, vehicleType, vehicleModel, vehicleRegNo } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { vehicleType, vehicleModel, vehicleRegNo },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Vehicle details updated",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };
