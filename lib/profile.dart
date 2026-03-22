@@ -150,7 +150,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 20, 
               ),
             ),
-            backgroundColor: Colors.black, 
+            backgroundColor: Colors.black,
+            iconTheme: const IconThemeData(
+            color: Colors.white, 
+            ), 
           ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
