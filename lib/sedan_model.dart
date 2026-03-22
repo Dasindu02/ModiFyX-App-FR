@@ -13,23 +13,24 @@ class _SedanModelState extends State<SedanModel> {
   String? selectedPart;
   bool showModifications = false;
 
-  // Map each image to its corresponding 3D model
   final Map<String, String> imageToModel = {
-    // Alloy Wheels
-    "allowheel01": "assets/models/alloywheel+10.glb",
+    "allowheel01": "assets/models/alloywheel+13.glb",
     "allowheel02": "assets/models/alloywheel+10.glb",
     "alloywheel03": "assets/models/alloywheel+10.glb",
     "allowheel04": "assets/models/alloywheel+14.glb",
     "allowheel05": "assets/models/alloywheel+14.glb",
-
-
-    // Headlights
     "headlight": "assets/models/headlight.glb",
-
-    // Spoilers
     "spoiler3": "assets/models/Spoiler+01.glb",
     "spoiler 7": "assets/models/spolier+4.glb",
     "spoiler2": "assets/models/spolier++02.glb",
+  };
+
+  final Set<String> lockedItems = {
+    "assets/modificationpart/alloywheel03.jpeg",
+    "assets/modificationpart/allowheel05.jpeg",
+    "assets/modificationpart/headlight01.jpg",
+    "assets/modificationpart/headlight02.jpg",
+   "assets/modificationpart/headlight03.jpg",
   };
 
   bool get isFormValid {
@@ -43,8 +44,9 @@ class _SedanModelState extends State<SedanModel> {
     super.dispose();
   }
 
-  // POPUP
   void showModificationPopup(String imagePath) {
+    if (lockedItems.contains(imagePath)) return;
+
     showDialog(
       context: context,
       builder: (context) {
@@ -78,7 +80,6 @@ class _SedanModelState extends State<SedanModel> {
                           },
                           child: const Text("Details"),
                         ),
-                        // TRY OUT BUTTON
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
@@ -99,7 +100,6 @@ class _SedanModelState extends State<SedanModel> {
                                 ),
                               );
                             } else {
-
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text("3D model not found")),
@@ -130,7 +130,6 @@ class _SedanModelState extends State<SedanModel> {
     );
   }
 
-  //  Return images based on the selected part
   List<String> getImages() {
     switch (selectedPart) {
       case "alloywheels":
@@ -143,7 +142,9 @@ class _SedanModelState extends State<SedanModel> {
         ];
       case "headlights":
         return [
-          "assets/modificationpart/allowheel01.png", 
+          "assets/modificationpart/headlight01.jpg",
+          "assets/modificationpart/headlight02.jpg",
+          "assets/modificationpart/headlight03.jpg",
         ];
       case "spoiler":
         return [
@@ -156,6 +157,53 @@ class _SedanModelState extends State<SedanModel> {
     }
   }
 
+  Widget buildLockedOverlay() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          colors: [
+            Colors.black.withOpacity(0.7),
+            Colors.black.withOpacity(0.4),
+          ],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+        ),
+      ),
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.orange,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: const [
+              BoxShadow(
+                blurRadius: 8,
+                offset: Offset(0, 3),
+                color: Colors.black26,
+              )
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.lock, color: Colors.white, size: 18),
+              SizedBox(width: 6),
+              Text(
+                "LOCKED",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final images = getImages();
@@ -166,7 +214,6 @@ class _SedanModelState extends State<SedanModel> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // HEADER
             Container(
               height: 56,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -191,7 +238,6 @@ class _SedanModelState extends State<SedanModel> {
                 ],
               ),
             ),
-
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(8),
@@ -201,12 +247,10 @@ class _SedanModelState extends State<SedanModel> {
                 ),
               ),
             ),
-
             const Padding(
               padding: EdgeInsets.only(left: 16),
               child: Text("Type a car model"),
             ),
-
             Padding(
               padding: const EdgeInsets.all(16),
               child: TextField(
@@ -222,12 +266,10 @@ class _SedanModelState extends State<SedanModel> {
                 },
               ),
             ),
-
             const Padding(
               padding: EdgeInsets.only(left: 16),
               child: Text("Select the Parts"),
             ),
-
             Padding(
               padding: const EdgeInsets.all(16),
               child: DropdownButtonFormField<String>(
@@ -248,7 +290,6 @@ class _SedanModelState extends State<SedanModel> {
                 },
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton(
@@ -266,9 +307,7 @@ class _SedanModelState extends State<SedanModel> {
                 child: const Text("Search"),
               ),
             ),
-
             const SizedBox(height: 10),
-
             if (showModifications)
               Expanded(
                 child: GridView.builder(
@@ -281,22 +320,34 @@ class _SedanModelState extends State<SedanModel> {
                     mainAxisSpacing: 10,
                   ),
                   itemBuilder: (context, index) {
+                    final imagePath = images[index];
+                    final isLocked = lockedItems.contains(imagePath);
+
                     return GestureDetector(
                       onTap: () {
-                        showModificationPopup(images[index]);
+                        if (!isLocked) {
+                          showModificationPopup(imagePath);
+                        }
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            images[index],
-                            fit: BoxFit.cover,
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(
+                                imagePath,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                            ),
                           ),
-                        ),
+                          if (isLocked) buildLockedOverlay(),
+                        ],
                       ),
                     );
                   },
