@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late TextEditingController vehicleRegController;
 
   bool isSaving = false;
-  bool isEditing = false; // toggle for edit/save
+  bool isEditing = false; // toggle btn
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
         subtitle: TextField(
           controller: controller,
-          enabled: isEditing, // read-only if not editing
+          enabled: isEditing, 
           decoration: InputDecoration(
             hintText: "Enter value",
             border: isEditing ? const UnderlineInputBorder() : InputBorder.none,
@@ -212,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             const SizedBox(height: 30),
 
-            /// Personal Details (Read Only)
+            /// Personal Details RO
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(

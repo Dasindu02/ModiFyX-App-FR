@@ -53,7 +53,7 @@ class _ARViewScreenState extends State<ARViewScreen> {
       ),
       body: Stack(
         children: [
-          // 📸 REAL CAMERA
+          //REAL CAMERA controll 
           if (_cameraController != null)
             FutureBuilder(
               future: _initializeCamera,
@@ -66,7 +66,7 @@ class _ARViewScreenState extends State<ARViewScreen> {
               },
             ),
 
-          // 🔥 3D MODEL OVERLAY
+          // 3D MODEL OVERLAY
           Center(
             child: SizedBox(
               height: 180,

@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // ---------------- Bottom Bar ----------------
+            // 
             Container(
               height: 60,
               decoration: const BoxDecoration(
@@ -258,7 +258,7 @@ Widget _vehicleCard({
   );
 }
 
-// Mod item widget
+
 class _ModItem extends StatelessWidget {
   final String image;
   const _ModItem({required this.image});

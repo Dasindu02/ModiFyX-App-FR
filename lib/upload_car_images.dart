@@ -61,7 +61,7 @@ class _UploadCarImagesState extends State<UploadCarImages> {
         leftImage != null &&
         rightImage != null) {
       setState(() {
-        isLoading = true; // show loading spinner
+        isLoading = true; 
       });
 
       // simulate 3D generation delay
@@ -71,7 +71,7 @@ class _UploadCarImagesState extends State<UploadCarImages> {
         isLoading = false;
       });
 
-      // navigate to preview
+      
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -98,7 +98,7 @@ class _UploadCarImagesState extends State<UploadCarImages> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /// FRONT / BACK
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -108,7 +108,7 @@ class _UploadCarImagesState extends State<UploadCarImages> {
               ),
               const SizedBox(height: 20),
 
-              /// LEFT / RIGHT
+            
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
