@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'car_preview.dart';
+// import 'car_preview.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadCarImages extends StatefulWidget {
@@ -55,36 +55,50 @@ class _UploadCarImagesState extends State<UploadCarImages> {
     );
   }
 
-  void generate3DCar() async {
-    if (frontImage != null &&
-        backImage != null &&
-        leftImage != null &&
-        rightImage != null) {
-      setState(() {
-        isLoading = true; 
-      });
+  void showMaintenancePopup() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.build_circle,
+                    size: 60, color: Colors.orange),
+                const SizedBox(height: 10),
+                const Text(
+                  "Feature Under Maintenance",
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "This feature is currently unavailable.\nPlease try again later.",
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                  ),
+                  child: const Text("OK"),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-      // simulate 3D generation delay
-      await Future.delayed(const Duration(seconds: 2));
-
-      setState(() {
-        isLoading = false;
-      });
-
-      
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CarPreview(),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please upload all 4 car images"),
-        ),
-      );
-    }
+  void generate3DCar() {
+    showMaintenancePopup();
   }
 
   @override
@@ -98,7 +112,6 @@ class _UploadCarImagesState extends State<UploadCarImages> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -107,8 +120,6 @@ class _UploadCarImagesState extends State<UploadCarImages> {
                 ],
               ),
               const SizedBox(height: 20),
-
-            
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -117,22 +128,12 @@ class _UploadCarImagesState extends State<UploadCarImages> {
                 ],
               ),
               const SizedBox(height: 30),
-
               ElevatedButton(
                 onPressed: generate3DCar,
                 child: const Text("Generate 3D Car"),
               ),
             ],
           ),
-
-          // Loading overlay
-          if (isLoading)
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              child: const Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              ),
-            ),
         ],
       ),
     );
