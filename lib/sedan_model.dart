@@ -25,12 +25,57 @@ class _SedanModelState extends State<SedanModel> {
     "spoiler2": "assets/models/spolier++02.glb",
   };
 
+  final Map<String, Map<String, String>> itemDetails = {
+    "allowheel01": {
+      "name": "Alloy Wheel Pro",
+      "price": "LKR 65,000",
+      "rating": "4.5 ⭐",
+      "size": "17 inch",
+    },
+    "allowheel02": {
+      "name": "Alloy Wheel Sport",
+      "price": "LKR 90,000",
+      "rating": "4.3 ⭐",
+      "size": "16 inch",
+    },
+    "allowheel04": {
+      "name": "Alloy Wheel X",
+      "price": "LKR 100,000",
+      "rating": "4.6 ⭐",
+      "size": "19 inch",
+    },
+    "headlight": {
+      "name": "LED Headlight",
+      "price": "LKR 25,000",
+      "rating": "4.4 ⭐",
+      "size": "Standard",
+    },
+    "spoiler3": {
+      "name": "Carbon Spoiler",
+      "price": "LKR 85,000",
+      "rating": "4.6 ⭐",
+      "size": "Medium",
+    },
+    "spoiler 7": {
+      "name": "Sport Spoiler",
+      "price": "LKR 90,000",
+      "rating": "4.2 ⭐",
+      "size": "Medium",
+    },
+    "spoiler2": {
+      "name": "Racing Spoiler",
+      "price": "LKR 68,000",
+      "rating": "4.7 ⭐",
+      "size": "Large",
+    },
+  };
+
   final Set<String> lockedItems = {
     "assets/modificationpart/alloywheel03.jpeg",
     "assets/modificationpart/allowheel05.jpeg",
     "assets/modificationpart/headlight01.jpg",
     "assets/modificationpart/headlight02.jpg",
-   "assets/modificationpart/headlight03.jpg",
+    "assets/modificationpart/headlight03.jpg",
   };
 
   bool get isFormValid {
@@ -42,6 +87,53 @@ class _SedanModelState extends State<SedanModel> {
   void dispose() {
     carModelController.dispose();
     super.dispose();
+  }
+
+  Map<String, String>? getDetails(String imagePath) {
+    for (var entry in itemDetails.entries) {
+      if (imagePath.contains(entry.key)) {
+        return entry.value;
+      }
+    }
+    return null;
+  }
+
+  void showDetailsPopup(String imagePath) {
+    final details = getDetails(imagePath);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(imagePath, height: 120),
+                const SizedBox(height: 10),
+                Text(
+                  details?["name"] ?? "Item",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Text("Price: ${details?["price"] ?? "-"}"),
+                Text("Rating: ${details?["rating"] ?? "-"}"),
+                Text("Size: ${details?["size"] ?? "-"}"),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Close"),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void showModificationPopup(String imagePath) {
@@ -72,11 +164,13 @@ class _SedanModelState extends State<SedanModel> {
                     ),
                     const SizedBox(height: 16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
+                            showDetailsPopup(imagePath);
                           },
                           child: const Text("Details"),
                         ),
@@ -86,8 +180,10 @@ class _SedanModelState extends State<SedanModel> {
 
                             String modelPath = imageToModel.entries
                                 .firstWhere(
-                                  (entry) => imagePath.contains(entry.key),
-                                  orElse: () => const MapEntry("", ""),
+                                  (entry) =>
+                                      imagePath.contains(entry.key),
+                                  orElse: () =>
+                                      const MapEntry("", ""),
                                 )
                                 .value;
 
@@ -172,7 +268,8 @@ class _SedanModelState extends State<SedanModel> {
       ),
       child: Center(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          padding:
+              const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.orange,
             borderRadius: BorderRadius.circular(20),
@@ -212,18 +309,21 @@ class _SedanModelState extends State<SedanModel> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
           children: [
             Container(
               height: 56,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16),
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.black, Colors.black87],
                 ),
               ),
               child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "ModiFyX",
@@ -243,21 +343,28 @@ class _SedanModelState extends State<SedanModel> {
                 padding: EdgeInsets.all(8),
                 child: Text(
                   "Sedan Models",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 16),
+              padding:
+                  EdgeInsets.only(left: 16),
               child: Text("Type a car model"),
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding:
+                  const EdgeInsets.all(16),
               child: TextField(
                 controller: carModelController,
-                decoration: const InputDecoration(
-                  hintText: "Eg: Toyota Corolla",
-                  border: OutlineInputBorder(),
+                decoration:
+                    const InputDecoration(
+                  hintText:
+                      "Eg: Toyota Corolla",
+                  border:
+                      OutlineInputBorder(),
                 ),
                 onChanged: (_) {
                   setState(() {
@@ -267,86 +374,134 @@ class _SedanModelState extends State<SedanModel> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Text("Select the Parts"),
+              padding:
+                  EdgeInsets.only(left: 16),
+              child:
+                  Text("Select the Parts"),
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
-              child: DropdownButtonFormField<String>(
+              padding:
+                  const EdgeInsets.all(16),
+              child:
+                  DropdownButtonFormField<
+                      String>(
                 value: selectedPart,
-                hint: const Text("Select modification part"),
+                hint: const Text(
+                    "Select modification part"),
                 items: const [
                   DropdownMenuItem(
-                      value: "headlights", child: Text("Headlights")),
+                      value: "headlights",
+                      child:
+                          Text("Headlights")),
                   DropdownMenuItem(
-                      value: "alloywheels", child: Text("Alloy Wheels")),
-                  DropdownMenuItem(value: "spoiler", child: Text("Spoiler")),
+                      value: "alloywheels",
+                      child:
+                          Text("Alloy Wheels")),
+                  DropdownMenuItem(
+                      value: "spoiler",
+                      child:
+                          Text("Spoiler")),
                 ],
                 onChanged: (value) {
                   setState(() {
                     selectedPart = value;
-                    showModifications = false;
+                    showModifications =
+                        false;
                   });
                 },
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:
+                  const EdgeInsets.symmetric(
+                      horizontal: 16),
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: Colors.orange,
+                style:
+                    ElevatedButton.styleFrom(
+                  minimumSize:
+                      const Size(
+                          double.infinity,
+                          50),
+                  backgroundColor:
+                      Colors.orange,
                 ),
                 onPressed: isFormValid
                     ? () {
                         setState(() {
-                          showModifications = true;
+                          showModifications =
+                              true;
                         });
                       }
                     : null,
-                child: const Text("Search"),
+                child:
+                    const Text("Search"),
               ),
             ),
             const SizedBox(height: 10),
             if (showModifications)
               Expanded(
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: images.length,
+                child:
+                    GridView.builder(
+                  padding:
+                      const EdgeInsets.all(
+                          16),
+                  itemCount:
+                      images.length,
                   gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    crossAxisCount:
+                        2,
+                    crossAxisSpacing:
+                        10,
+                    mainAxisSpacing:
+                        10,
                   ),
-                  itemBuilder: (context, index) {
-                    final imagePath = images[index];
-                    final isLocked = lockedItems.contains(imagePath);
+                  itemBuilder:
+                      (context, index) {
+                    final imagePath =
+                        images[index];
+                    final isLocked =
+                        lockedItems
+                            .contains(
+                                imagePath);
 
                     return GestureDetector(
                       onTap: () {
                         if (!isLocked) {
-                          showModificationPopup(imagePath);
+                          showModificationPopup(
+                              imagePath);
                         }
                       },
                       child: Stack(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
+                            decoration:
+                                BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(
+                                      10),
+                              border: Border.all(
+                                  color: Colors
+                                      .grey),
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
+                              borderRadius:
+                                  BorderRadius.circular(
+                                      10),
+                              child:
+                                  Image.asset(
                                 imagePath,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
+                                fit: BoxFit
+                                    .cover,
+                                width: double
+                                    .infinity,
+                                height: double
+                                    .infinity,
                               ),
                             ),
                           ),
-                          if (isLocked) buildLockedOverlay(),
+                          if (isLocked)
+                            buildLockedOverlay(),
                         ],
                       ),
                     );
