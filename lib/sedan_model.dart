@@ -11,8 +11,26 @@ class SedanModel extends StatefulWidget {
 class _SedanModelState extends State<SedanModel> {
   final TextEditingController carModelController = TextEditingController();
   String? selectedPart;
-
   bool showModifications = false;
+
+  // Map each image to its corresponding 3D model
+  final Map<String, String> imageToModel = {
+    // Alloy Wheels
+    "allowheel01": "assets/models/alloywheel+10.glb",
+    "allowheel02": "assets/models/alloywheel+10.glb",
+    "alloywheel03": "assets/models/alloywheel+10.glb",
+    "allowheel04": "assets/models/alloywheel+14.glb",
+    "allowheel05": "assets/models/alloywheel+14.glb",
+
+
+    // Headlights
+    "headlight": "assets/models/headlight.glb",
+
+    // Spoilers
+    "spoiler3": "assets/models/Spoiler+01.glb",
+    "spoiler 7": "assets/models/spolier+4.glb",
+    "spoiler2": "assets/models/spolier++02.glb",
+  };
 
   bool get isFormValid {
     return carModelController.text.trim().isNotEmpty &&
@@ -25,7 +43,7 @@ class _SedanModelState extends State<SedanModel> {
     super.dispose();
   }
 
-  // 🔥 POPUP
+  // POPUP
   void showModificationPopup(String imagePath) {
     showDialog(
       context: context,
@@ -51,7 +69,6 @@ class _SedanModelState extends State<SedanModel> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -61,33 +78,33 @@ class _SedanModelState extends State<SedanModel> {
                           },
                           child: const Text("Details"),
                         ),
-
-                        // 🚀 TRY OUT BUTTON
+                        // TRY OUT BUTTON
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
 
-                            // 🔥 MAP IMAGE → MODEL
-                            String modelPath = "";
+                            String modelPath = imageToModel.entries
+                                .firstWhere(
+                                  (entry) => imagePath.contains(entry.key),
+                                  orElse: () => const MapEntry("", ""),
+                                )
+                                .value;
 
-                            if (imagePath.contains("allowheel")) {
-                              modelPath =
-                                  "assets/models/alloywheel+10.glb";
-                            } else if (imagePath.contains("headlight")) {
-                              modelPath =
-                                  "assets/models/headlight.glb";
-                            } else if (imagePath.contains("spoiler")) {
-                              modelPath =
-                                  "assets/models/spoiler.glb";
+                            if (modelPath.isNotEmpty) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ARViewScreen(modelPath: modelPath),
+                                ),
+                              );
+                            } else {
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("3D model not found")),
+                              );
                             }
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ARViewScreen(modelPath: modelPath),
-                              ),
-                            );
                           },
                           child: const Text("Try Out"),
                         ),
@@ -96,7 +113,6 @@ class _SedanModelState extends State<SedanModel> {
                   ],
                 ),
               ),
-
               Positioned(
                 right: 8,
                 top: 8,
@@ -114,25 +130,30 @@ class _SedanModelState extends State<SedanModel> {
     );
   }
 
+  //  Return images based on the selected part
   List<String> getImages() {
-    if (selectedPart == "alloywheels") {
-      return [
-        "assets/modificationpart/allowheel01.png",
-        "assets/modificationpart/allowheel02.jpeg",
-        "assets/modificationpart/alloywheel03.jpeg",
-        "assets/modificationpart/allowheel04.png",
-        "assets/modificationpart/allowheel05.jpeg",
-      ];
-    } else if (selectedPart == "headlights") {
-      return [
-        "assets/modificationpart/allowheel01.png",
-      ];
-    } else if (selectedPart == "spoiler") {
-      return [
-        "assets/modificationpart/allowheel02.jpeg",
-      ];
+    switch (selectedPart) {
+      case "alloywheels":
+        return [
+          "assets/modificationpart/allowheel01.png",
+          "assets/modificationpart/allowheel02.jpeg",
+          "assets/modificationpart/alloywheel03.jpeg",
+          "assets/modificationpart/allowheel04.png",
+          "assets/modificationpart/allowheel05.jpeg",
+        ];
+      case "headlights":
+        return [
+          "assets/modificationpart/allowheel01.png", 
+        ];
+      case "spoiler":
+        return [
+          "assets/modificationpart/spoiler3.jpg",
+          "assets/modificationpart/spoiler 7.jpg",
+          "assets/modificationpart/spoiler2.jpg",
+        ];
+      default:
+        return [];
     }
-    return [];
   }
 
   @override
@@ -213,8 +234,10 @@ class _SedanModelState extends State<SedanModel> {
                 value: selectedPart,
                 hint: const Text("Select modification part"),
                 items: const [
-                  DropdownMenuItem(value: "headlights", child: Text("Headlights")),
-                  DropdownMenuItem(value: "alloywheels", child: Text("Alloy Wheels")),
+                  DropdownMenuItem(
+                      value: "headlights", child: Text("Headlights")),
+                  DropdownMenuItem(
+                      value: "alloywheels", child: Text("Alloy Wheels")),
                   DropdownMenuItem(value: "spoiler", child: Text("Spoiler")),
                 ],
                 onChanged: (value) {
